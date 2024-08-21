@@ -3,27 +3,27 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+     id = db.Column(db.Integer, primary_key=True)
+     name = db.Column(db.String(120), unique=True, nullable=False)
+     email = db.Column(db.String(120), unique=True, nullable=False)
+    
+     def __repr__(self):
+        return '<User %r>' % self.id
 
-    def __repr__(self):
-        return '<User %r>' % self.username
-
-    def serialize(self):
+     def serialize(self):
         return {
             "id": self.id,
+            "name": self.name,
             "email": self.email,
             # do not serialize the password, its a security breach
         }
 class Planets(db.Model):
     __tablename__= 'planets'
-    id = db.colum(db.Integer, primary_key=True)
-    name = db.colum(db.String,(150), unique=True, nullable=False)
-    terrain = db.column(db.String(200))
-    climate = db.colum(db.String(200))
-    description = db.colum(bd.String(500))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=True, nullable=False)
+    terrain = db.Column(db.String(200))
+    climate = db.Column(db.String(200))
+    description = db.Column(db.String(500))
     
     def __repr__(self):
         return '<Planets %r>' % self.planets
@@ -38,7 +38,7 @@ class Planets(db.Model):
         }
 class Characters(db.Model):
     __tablename__= 'characters'
-    id = db.colum(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     birth_year = db.Column(db.String(150), nullable=False)
     eye_color = db.Column(db.String(150), nullable=False)
@@ -63,7 +63,7 @@ class Characters(db.Model):
         }
 class Vehicles(db.Model):
     __tablename__= 'vehicles'
-    id = db.colum(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(150), nullable=False)
     manufacturer = db.Column(db.String(200), nullable=False)
     class_vehícle = db.Column(db.String(200), nullable=False)
