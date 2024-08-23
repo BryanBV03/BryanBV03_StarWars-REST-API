@@ -218,7 +218,93 @@ def deleteVehicle(vehicle_id):
     return jsonify({"msg": "Vehicle successfully eliminated"}), 200
 
 
+# ==============================METODOS DE FAVORITOS
 
+
+# ==================METODO POST FAV
+@app.route('/favorite/planets/<int:planets_id>', methods=['POST'])
+def favorite_planet(planet_id):
+    body_request = request.get.json()
+
+    user_id = body_request.get("user_id",None)
+    planet_id = body_request.get("planet_id",None)
+
+
+    newPlanetFavorite = Favorites(user_id=user_id, planet_id=planet_id)
+    db.session.add(newPlanetFavorite)
+    db.session.commit()
+
+    return jsonify(newPlanetFavorite.serialize())
+
+
+@app.route('/favorite/characters/<int:character_id>', methods=['POST'])
+def favorite_character(character_id):
+    body_request = request.get.json()
+
+    user_id = body_request.get("user_id",None)
+    character_id_id = body_request.get("character_id",None)
+
+
+    newCharacterFavorite = Favorites(user_id=user_id, character_id=character_id_id)
+    db.session.add(newCharacterFavorite)
+    db.session.commit()
+
+    return jsonify(newCharacterFavorite.serialize())
+
+
+@app.route('/favorite/vehicles/<int:vehicles_id>', methods=['POST'])
+def favorite_vehicles(vehicle_id):
+    body_request = request.get.json()
+
+    user_id = body_request.get("user_id",None)
+    planet_id = body_request.get("planet_id",None)
+
+
+    newVehicleFavorite = Favorites(user_id=user_id, vehicle_id=vehicle_id)
+    db.session.add(newVehicleFavorite)
+    db.session.commit()
+
+    return jsonify(newVehicleFavorite.serialize())
+
+
+# =========================METODO DELETE FAV
+@app.route('/favorite/planets/<int:planet_id>', methods=['DELETE'])
+def deleteFavoritePlanet(planet_id):
+    deletePlanetFav = Favorites.query.filter_by(planet_id=planet_id).first()
+    
+    if deletePlanetFav is None:
+        return jsonify({"msg": "El favorito no existe"}), 404
+    
+    db.session.delete(deletePlanetFav)
+    db.session.commit()
+
+    return jsonify({"msg": "Borrado con éxito!"}), 200
+
+@app.route('/favorite/characters/<int:character_id>', methods=['DELETE'])
+def deleteFavoriteCharacter(character_id):
+    deleteCharacterFav = Favorites.query.filter_by(character_id=character_id).first()
+    
+    if deleteCharacterFav is None:
+        return jsonify({"msg": "El favorito no existe"}), 404
+    
+    db.session.delete(deleteCharacterFav)
+    db.session.commit()
+
+    return jsonify({"msg": "Borrado con éxito!"}), 200
+
+@app.route('/favorite/vehicles/<int:vehicle_id>', methods=['DELETE'])
+def deleteFavoriteVehicle(vehicle_id):
+    deleteVehicleFav = Favorites.query.filter_by(vehicle_id=vehicle_id).first()
+    
+    if deleteVehicleFav is None:
+        return jsonify({"msg": "El favorito no existe"}), 404
+    
+    db.session.delete(deleteVehicleFav)
+    db.session.commit()
+
+    return jsonify({"msg": "Borrado con éxito!"}), 200
+
+ 
 
 
 
